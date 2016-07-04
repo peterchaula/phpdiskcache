@@ -130,7 +130,7 @@ class DefaultCache implements Cache
 	public function get($key, $default = null, callable $callback = null)
 	{
 		$this->index();
-		if (!empty($this->index[$key])) {
+		if (!empty($this->index[$key]) && !$this->entryIsOld($this->index[$key]['created'])) {
 		    $this->index[$key]['created'] = microtime(true);
             $this->updateIndex();
 			$data = file_get_contents($this->f($this->index[$key]['file']));
@@ -149,6 +149,10 @@ class DefaultCache implements Cache
 		}
 		return $this->index[$key];
 	}
+
+	private function entryIsOld($created){
+	    return microtime(true) - $created > $this->settings['max_age'];
+    }
 
 	/**
 	 * Remove an entry from the cache
