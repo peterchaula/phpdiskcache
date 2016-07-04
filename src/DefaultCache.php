@@ -118,21 +118,25 @@ class DefaultCache implements Cache
 	{
 		return $this->indexFile;
 	}
-	/**
-	 * @param $key
-	 * @param null $default
-	 * Returns this if the entry is not found
-	 * @return mixed
-	 * Cache entry
-	 */
-	public function get($key, $default = null)
+
+    /**
+     * @param $key
+     * @param null $default
+     * Returns this if the entry is not found
+     * @param callable $callback
+     * @return mixed Cache entry
+     * Cache entry
+     */
+	public function get($key, $default = null, callable $callback = null)
 	{
 		$this->index();
 		if (!empty($this->index[$key])) {
-			return file_get_contents($this->f($this->index[$key]['file']));
-		}
+			$data = file_get_contents($this->f($this->index[$key]['file']));
+		}else{
+		    $data = $default;
+        }
 
-		return $default;
+		return $callback !== null ? $callback($data) : $data;
 	}
 
 
