@@ -17,7 +17,7 @@ class DefaultCache implements Cache
 
 	private $settings = [
 		'max_size' => 20,
-		'max_age' => 86400,
+		'max_age' => 21 * 3600,
 		'cacheDir' => 'cache/',
 	];
 
@@ -58,10 +58,11 @@ class DefaultCache implements Cache
 	/**
 	 * @param $key
 	 * @param $value
+	 * @param int $maxAge
 	 * @return bool|void
 	 * @throws Exception If $value if not a string
 	 */
-	public function push($key, $value)
+	public function push($key, $value, $maxAge = 0)
 	{
 		if (!is_string($value))
 			throw new \Exception('Only strings are allowed to maintain integrity');
@@ -74,7 +75,8 @@ class DefaultCache implements Cache
 
 		$entry = [
 			'file' => self::DEFAULT_PREFIX . '.' . md5($key),
-			'created' => microtime(true)
+			'created' => microtime(true),
+			'max_age' => $maxAge
 		];
 
 		$this->index[$key] = $entry;
