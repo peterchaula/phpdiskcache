@@ -71,6 +71,12 @@ class DefaultCacheTest extends PHPUnit_Framework_TestCase
 		$this->assertNotEmpty($entry, 'The result of get entry must not be empty');
 		$entry = json_decode($entry, true);
 		$this->assertTrue(is_array($entry), 'Entry not found for key: ' . $this->key);
+        //repeat the same with a callback
+        $entry = $this->cache->get($this->key, null, function($data){
+            return json_decode($data, true);
+        });
+        $this->assertTrue(is_array($entry), 'Get entry with callback failed');
+
 		return $this->cache->getIndex()[$this->key];
 	}
 	/**

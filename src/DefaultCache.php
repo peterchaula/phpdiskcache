@@ -131,6 +131,8 @@ class DefaultCache implements Cache
 	{
 		$this->index();
 		if (!empty($this->index[$key])) {
+		    $this->index[$key]['created'] = microtime(true);
+            $this->updateIndex();
 			$data = file_get_contents($this->f($this->index[$key]['file']));
 		}else{
 		    $data = $default;
