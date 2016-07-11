@@ -17,7 +17,7 @@ class DefaultCache implements Cache
 
 	private $settings = [
 		'max_size' => 20,
-		'max_age' => 21 * 3600,
+		'max_age' => 3600,
 		'cacheDir' => 'cache/',
 	];
 
@@ -133,8 +133,6 @@ class DefaultCache implements Cache
 	{
 		$this->index();
 		if (!empty($this->index[$key]) && !$this->entryIsOld($this->index[$key]['created'])) {
-		    $this->index[$key]['created'] = microtime(true);
-            $this->updateIndex();
 			$data = file_get_contents($this->f($this->index[$key]['file']));
 		}else{
 		    $data = $default;

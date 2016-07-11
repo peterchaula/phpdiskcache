@@ -41,10 +41,11 @@ interface Cache
 	 * @param $key
 	 * @param null $default
 	 * Returns this if the entry is not found
-	 * @return mixed
+	 * @param callable $callback. Processes the raw data from cache
+	 * @return mixed Cache entry
 	 * Cache entry
 	 */
-	public function get($key, $default = null);
+	public function get($key, $default = null, callable  $callback = null);
 
 	/**
 	 * @param $key
