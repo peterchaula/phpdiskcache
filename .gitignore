@@ -2,3 +2,4 @@ vendor/
 .idea/
 report/
 test_data/
+.php_cs.cache
