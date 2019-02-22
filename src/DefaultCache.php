@@ -57,7 +57,7 @@ class DefaultCache implements Cache
     public function push($key, $value, $maxAge = 0)
     {
         if (!is_string($value)) {
-            throw new \Exception('Only strings are allowed to maintain integrity');
+            throw new \Exception('Only string values are allowed');
         }
 
         $this->index();
